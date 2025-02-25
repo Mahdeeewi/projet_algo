@@ -3,11 +3,7 @@
 #include <windows.h>
 using namespace std;
 
-
-
-
-
-// Fonction pour lire et afficher les mots d'un fichie
+// Fonction pour lire et afficher les mots d'un fichier
 void lireEtAfficherMots(const string &nomFichier, int n, int m, int& khrouj, int niv1);
 int main()
 {
@@ -60,12 +56,9 @@ countdown(3);
     }
 } while (n > 100 || m > 100);
 
-  string nomFichier = "mehdi.txt"; // Remplacez par le nom de votre fichier
+  string nomFichier = "mehdi.txt"; 
 lireEtAfficherMots(nomFichier, n, m,khrouj,niveau);
 afficheMatrice(Matric,n, m+1); // Affiche la matrice
-
-
-
 
 int nb1 = combienDeUn(n, m); // Compte les '1' dans la matrice
 cout << "Le nombre de '1' dans la matrice est : " << nb1 <<  endl;
@@ -89,7 +82,7 @@ do
 T[0] =  Matric[n1][m1];
 char abda = Matric[n1][m1]; // Sauvegarde la valeur actuelle de la case
       // Marque la position initiale dans la matrice
-direction(n, m, n1, m1, m/*ena lezem nhotou akber kelma fel txt*/, 1, abda,niveau); // Appelle la fonction de direction
+direction(n, m, n1, m1, m/*ena lezem nhotou akber kelma fel txt*/, 1, abda,niveau); // Appelle la fonction de direction qui va executer la logique du jeu 
 
 return 0;
 

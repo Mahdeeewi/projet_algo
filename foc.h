@@ -61,14 +61,14 @@ int T1[100]; // tableau pour stocker le plus court chemin vers le mot
 #define BD (Matric[n1 + 1][m1 + 1] == '1' || Matric[n1 + 1][m1 + 1] == '2' || Matric[n1 + 1][m1 + 1] == '3' || \
             Matric[n1 + 1][m1 + 1] == '4' || Matric[n1 + 1][m1 + 1] == '5' || Matric[n1 + 1][m1 + 1] == '6' || \
             Matric[n1 + 1][m1 + 1] == '7' || Matric[n1 + 1][m1 + 1] == '8' || Matric[n1 + 1][m1 + 1] == '9')
-// Déclaration de la matrice globale
+
 char Matric[100][100];  // matrice principale
 char Matric1[100][100]; // matrice de contole pour la generation de grille
-char Matric3[100][100]; // lena el matrice eli bch yal3eb aleha djikstra
+char Matric3[100][100]; // matrice utilisee par l'algorithme de djikstra 
 char T[20];             // tableau pour stocker le mot recuperee par le joueur
 int /*m:nombre de colonne,n:nombre de ligne */ m, n, choix /*choix de la direction */, /*position actuelle dans la matrice */ n1, m1;
 
-// matrice utilisee pour la matrice de controle de djikstra
+
 void recopiematrice(int n, int m)
 {
     for (int i = 0; i < n; i++)
@@ -94,7 +94,7 @@ void countdown(int seconds)
 
 // fonction pour compter le nombre de murs dans la matrice
 int combienDeUn(int n, int m)
-{
+{ 
     int count = 0; // Compteur initialisé à 0
     for (int i = 0; i < n; i++)
     {
@@ -160,8 +160,7 @@ void remplirMatrice(int n, int m)
     }
 }
 
-// lena el matrice andha nejma ama fama hyout nafss el ligne ta3 el nejma donc invisible ll user lena el affichage ysir bel behi
-// ekher colone nraw ken el nejma ama howa fama nejma w hyout
+// affiche la grille et remplace les '1' qui sont dans la meme ligne que le point d'arrivee par des espaces 
 void afficheMatrice(char Matri[][100], int n, int m)
 {
     for (int i = 0; i < n; i++)
@@ -198,7 +197,7 @@ void remplirMatriceN1(int n, int m, vector<string> motsSelectionnes, int &khrouj
         {
             Matric[i][j] = motCourant[j];
             // cout << Matric[i][j] << " ";
-        }
+        }   
         //  cout << endl;
     }
 
@@ -332,7 +331,8 @@ void remplirMatriceN2(int n, int m, vector<string> motsSelectionnes, int &khrouj
     */
     // Affichage de la matrice Matric1
 }
-// remplire les cases utilisées pour être réutilisées avec d’autres mots.
+
+// remplir les cases utilisées pour être réutilisées avec d’autres mots:
 void remplirMatrice2(int n, int m, int khrouj)
 {
     srand(time(0)); // Initialisation de la graine aléatoire
@@ -362,7 +362,7 @@ void remplirMatrice2(int n, int m, int khrouj)
     // on recopie la matrice pour l'utiliser avec djikstra 
     recopiematrice(n, m);
 }
-//affichage du mot a la fin du jeu 
+//affichage du mot a la fin du jeu :
 void afficheTab(char T[], int mac, int step)
 {
 
@@ -374,7 +374,7 @@ void afficheTab(char T[], int mac, int step)
     cout << endl;
     cout << "avec nb step= : " << step << endl;
 }
-//affichage du mot en cour du jeu 
+//affichage du mot en cour du jeu :
 void afficheTab1(char T[], int mac)
 {
 
@@ -386,7 +386,7 @@ void afficheTab1(char T[], int mac)
     cout << endl;
 }
 
-// afichage ll fin kif compare mot
+// affichage du resultat final lorsque le joueur atteint '*'
 void CompMot1(string verif, int &Score, int long1, int niveau, int Tab[], int step, vector<string> &motsSelectionnes)
 {
     bool motTrouve = false;
@@ -472,7 +472,7 @@ void CompMot1(string verif, int &Score, int long1, int niveau, int Tab[], int st
     cout << "\033[1;36m========================================\033[0m\n"
          << endl;
 }
-
+//comparaison du mot selectionne par le joueur avec les mots du dictionnaire: 
 void CompMot(string verif, int &Score, int long1, int niveau, int Tab[], int step, vector<string> &motsSelectionnes)
 {
     bool motTrouve = false;
@@ -508,12 +508,12 @@ void CompMot(string verif, int &Score, int long1, int niveau, int Tab[], int ste
         // Calcul du score
         int bonusNiveau = 30 * niveau;
         int bonusLongueur = long1;
-        // hedhi macro bch ysahel el khedma ken l9a el chemin el ahsen bch yatih el poinet snn el mara jeya
+        // macro pour calculer le bonus du chemin optimal 
         int bonusChemin = (step <= totalChemin) ? (niveau * 20) : 0;
-        // lena yehseb kol chay el formule taa el hesba ll score
+        //formule de calcul du score : 
         Score += bonusNiveau + bonusLongueur + bonusChemin;
 
-        // Affichage du succès
+        // Affichage si le mot a été trouvé dans le dictionnaire 
         cout << "✅ Bravo ! Tu as trouvé le mot " << verif << " !" << endl;
         cout << "🔢 Chemin parcouru : " << totalChemin << endl;
         cout << "🚀 Chemin optimal : " << step << endl;
@@ -533,8 +533,7 @@ void CompMot(string verif, int &Score, int long1, int niveau, int Tab[], int ste
     }
 }
 
-// redhi el fonction bch yhel beha elficher w yjib el kelm ala kober el ligne w colone matalan user -- (5,7) doncf 7 mots longeur
-// max taa kol wahda 4 bch najmou nkhaliw blayes ll hyout
+//choisir des mots a partir du dictionnaire et les mettre en fonction de la taille de la grille
 
 void lireEtAfficherMots(const string &nomFichier, int nbligne, int m, int &khrouj, int niv1)
 {
@@ -573,9 +572,8 @@ void lireEtAfficherMots(const string &nomFichier, int nbligne, int m, int &khrou
     // Initialiser le générateur de nombres aléatoires
     srand(static_cast<unsigned int>(time(0)));
 
-    // lena bch nrakhou el kelma
     while (i < nbligne)
-    { // bch nwariwah el klem eli ffama fel vecteur donc matrice
+    { 
         int index = rand() % mots.size();
         if (mots[index].length() <= m - 1)
         {
@@ -585,7 +583,7 @@ void lireEtAfficherMots(const string &nomFichier, int nbligne, int m, int &khrou
         }
     }
 
-    atwelklema = motsSelectionnes[0]; // Initialiser avec le premier mot
+    atwelklema = motsSelectionnes[0]; // Initialiser le premier mot comme le plus long 
 
     for (int i = 1; i < nbligne; i++)
     {
@@ -601,6 +599,7 @@ void lireEtAfficherMots(const string &nomFichier, int nbligne, int m, int &khrou
 
     cout << "le mot le plus long est :  " << atwelklema << "  avec un nombre de " << k << " characteres" << endl;
     if (niv1 == 1)
+    //remplir la grille en fonction du niveau de difficulte : 
     {
 
         remplirMatriceN1(nbligne, m, motsSelectionnes, khrouj);
@@ -617,7 +616,7 @@ void lireEtAfficherMots(const string &nomFichier, int nbligne, int m, int &khrou
     }
 }
 
-// lena el djikstra bch namlou Node eli feha el deplacment al X Y w cost taa el deplacement el cost lena dima 1
+// creation d'une structure Node contenant un deplacement x,y et un cout: 
 struct Node
 {
     int x, y, cost;
@@ -627,11 +626,11 @@ struct Node
     }
 };
 
-// les 8 direction li ana
+// les 8 directions disponible pour le deplacement dans la grille : 
 const int dx[8] = {-1, 1, 0, 0, -1, -1, 1, 1};
 const int dy[8] = {0, 0, -1, 1, -1, 1, -1, 1};
 
-// pour trouver l'ocurance de carcter dans le mot ken fama bch nkhadmou djikstra snn ntadew toul
+// pour trouver l'occurence du caractere actuel dans le mot, si trouve on execute djikstra pour trouver le chemin le plus court vers le mot 
 vector<pair<int, int>> trouverOccurrences(char lettre, int n, int m)
 {
     vector<pair<int, int>> positions;
@@ -693,7 +692,7 @@ vector<pair<int, int>> dijkstra(int startX, int startY, int endX, int endY, int 
 }
 
 void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int niv)
-{ // lena fel fonc hedhi heya el kol feha el la3ba el kol ta9ribb
+{ // cette fonction contient tout le logique du jeu 
     T[0] = loul;
     char rec, mot, pt;
     int j = 0, i = 0, step = 0, mac = 16, Score = 0, k = 0, t = 1, lon = 0, o = m1, p = n1;
@@ -701,7 +700,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
     int lost = 0;
     vector<string> motsCorrespondants;
     j++;
-    // lena bch ntakdou ken nahna awel mara dkhalna ll loop wala le ken awel mara c'est deja zeedna el Tab feha el harf el loul eli lezem yekhdhou bessif
+
     if (j == 1)
     {
         i = mloul;
@@ -711,11 +710,10 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
         i = 0;
     }
     step = 0;
-    // lena bch no93dou nal3bou 7ataa lin yousel el nejma el condition el wahida ta el khrouj
+    // on boucle jusqu'a le joueur trouve le point d'arrive '*' ou il atteint le nombre max de sanctions : condition de sortie 
     while (i < mac)
     {
-        // kol ma nabdew fi awel el kelma maneha nhezou wel haref nlansiw Djikstra ama lenna djikstra bch yekhdem ala matrice okhra bch el haref li yekhdhou yma3adech yatjalou
-        // w zid bch mayfasadech el matrice te3na w el matrice3 heya el matrice ta djikstra kol ma nbadlou fel matrice nmchiw nbadlou fel matrice3
+    // on prend le premier caractere (position de depart) et on execute djikstra qui va travailler sur une autre matrice 
         if (i == 1 && vizita == 0)
         {
             // bch netakdou li nodkhlou ken awel el haref w ken el kelma mwjouda fel vecteur
@@ -734,7 +732,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
             {
                 if (mot[0] == c)
                 {
-                    // lena el test yemchi maneha fama kelma tabda bel haref hedheka
+                    // test ok, on trouve un mot qui commence par la lettre selectionnee dans le dictionnaire 
                     test = 1;
                     motsCorrespondants.push_back(mot);
                 }
@@ -744,7 +742,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
             {
                 cout << "Aucun mot trouvé avec la lettre " << c << endl;
                 for (int i = 0; i < m; i++)
-                { // lena el cout infini
+                { // cout infini
                     T1[i] = 3000;
                     cout << T1[i] << endl;
                 }
@@ -790,10 +788,10 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
                     {
                        // cout << "Chemin trouvé :" << endl;
                         for (const auto &coord : chemin)
-                        { // lena bch nkaydou eli r9inehom w el path li lezem ymcheha
+                        {
                             int x = coord.first;
                             int y = coord.second;
-                            // lena bch naffichiw el pos el bch nemchiw feha
+                          
                             // cout << "(" << x << ", " << y << ") ";
                             lon++;
                             p = x;
@@ -818,7 +816,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
 
                 //cout << "Les longueurs des plus courts chemins sont :" << endl;
                 for (int i = 0; i < i12; i++)
-                { // lena nstokiw kol 7aref 9adech el path el 9sira lih
+                { 
                    // cout << T1[i] << endl;
                 }
 
@@ -826,9 +824,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
                 t = 1;
                 Matric[n1][m1] = static_cast<char>((0 + 2) + '0');
             }
-            // hedhi nafichiw el matrice li khdem aleha djkstra w kifech walet
-            // lena bch naffichiw ell matrice ta3 el djekstra eli khdem aleha
-            // afficheMatrice2(Matric3, n, m + 1);
+            
         }
 
         if (k == 0)
@@ -877,7 +873,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
                             cout << "Entrée invalide. Veuillez taper Y ou N.\n";
                         }
                     } while (conYO);
-                    // lena verification ll mot ken theb tekhou el char ken le yzid el step ken ey mayzidech
+                    // verification de l'input de l'utilisateur 
                     if (rec == 'Y' || rec == 'y')
                     {
                         T[i] = Matric[n1][m1];
@@ -885,7 +881,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
                         if (i != 1)
                         {
                             int step1 = step;
-                            // ken hazit el char lena namlou hit ama el hit juste ll wakt taw khater ki tkonfermi bch nremplaciw el casset hedhom bahrouf alea
+                            
                             if (step > 9)
                             {
                                 step1 = step % 10;
@@ -897,7 +893,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
 
                     do
                     {
-                        // ken theb tkonfermi wala le
+                    
                         cout << "Tu veux valider ce mot ? Taper Y ou N : " << endl;
                         cin >> rec;
 
@@ -909,8 +905,8 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
 
                     if (rec == 'Y' || rec == 'y')
                     {
-                        // ken EY nhesbou score w ncompariw w namlou kol chy w namlou inisalisation ll tableau li fih el chars
-                        string kelma(T, i); // lena nekhdhou el klma
+                        // si le joueur valide le mot, on compare et on calcule le score. Puis on remplace les cases utilisees par des lettres aleatoires.
+                        string kelma(T, i); // on stocke le mot du joueur 
 
                         for (int k = 0; k < i; k++)
                         {
@@ -931,7 +927,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
                     }
                 }
             }
-            // ken el mouv ghalet bch ykolek impossible
+            // si le mouvement est faux : 
             else
             {
                 lost++;
@@ -994,7 +990,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
                     if (rec == 'Y' || rec == 'y')
                     {
 
-                        string kelma(T, i); // lena nekhdhou el klma
+                        string kelma(T, i); 
 
                         for (int k = 0; k < i; k++)
                         {
@@ -1077,7 +1073,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
                 if (rec == 'Y' || rec == 'y')
                 {
 
-                    string kelma(T, i); // lena nekhdhou el klma
+                    string kelma(T, i); 
 
                     for (int k = 0; k < i; k++)
                     {
@@ -1160,7 +1156,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
                     if (rec == 'Y' || rec == 'y')
                     {
 
-                        string kelma(T, i); // lena nekhdhou el klma
+                        string kelma(T, i); 
 
                         for (int k = 0; k < i; k++)
                         {
@@ -1250,7 +1246,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
                 if (rec == 'Y' || rec == 'y')
                 {
 
-                    string kelma(T, i); // lena nekhdhou el klma
+                    string kelma(T, i); 
 
                     for (int k = 0; k < i; k++)
                     {
@@ -1335,7 +1331,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
                     if (rec == 'Y' || rec == 'y')
                     {
 
-                        string kelma(T, i); // lena nekhdhou el klma
+                        string kelma(T, i); 
 
                         for (int k = 0; k < i; k++)
                         {
@@ -1426,7 +1422,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
                     if (rec == 'Y' || rec == 'y')
                     {
 
-                        string kelma(T, i); // lena nekhdhou el klma
+                        string kelma(T, i); 
 
                         for (int k = 0; k < i; k++)
                         {
@@ -1511,7 +1507,7 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
                     if (rec == 'Y' || rec == 'y')
                     {
 
-                        string kelma(T, i); // lena nekhdhou el klma
+                        string kelma(T, i); 
 
                         for (int k = 0; k < i; k++)
                         {
@@ -1580,21 +1576,21 @@ void direction(int n, int m, int n1, int m1, int max, int mloul, char loul, int 
         if (Matric[n1][m1] == '*')
         {
 
-            string kelma(T, i); // lena nekhdhou el klma
+            string kelma(T, i); 
 
             cout << "Victoire!" << endl;
 
             CompMot1(kelma, Score, i, niv, T1, step, motsSelectionnes);
 
             cout << "Score Final: " << Score << endl;
-            // lena i ++++++++++++++++ donc nbrekiw kol chay wnokhrjou
+          // on met une valeur de i grande pour sortir de la boucle 
             i = 222;
             /*std::this_thread::sleep_for(std::chrono::seconds(4));*/ // Pause de 3 secondes
 
-            // lezzem lena bch najmou nokhrjou mel while w najmou narfou kober el kelma
+            
         }
     }
-    // lena lezem n3abiw aka les 2 avec des lettres
+    
 }
 
 #endif
